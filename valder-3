@@ -1,0 +1,37 @@
+import math                    
+import collections
+
+lis=[]                                 #空のリストつくる                                                                                                                                  
+lis2=""                                #空文字
+lis3=""                                #リストではない
+lis4=[]                                #エントロピー算出用のリスト
+
+f=open("rhodopsins_multi","r")         #ファイル読み込む
+for a in f:
+    if '>' in a:
+        lis.append(list(lis2))         #lis2を一つ一つlistにしてlisに入れている                                                                                                                     
+        lis2=""                        #>の行をlis2で空にする                                                                                                                         
+    else:
+        b=a.replace("\n","")           #ファイルの>の行以外(マルチプルアライメント)の改行を消す                                                                                                         
+        lis2=lis2+b                    #それを空のlis2に入れる                                                                                                           
+lis.append(list(lis2))                 #lisにlis2を入れるさらにlistにすることで、1文字ずつlistに入ってる                                                                                                     
+del lis[0]                             #最初に空白になった要素を消す(この時点でマルチプルアラインメントが一つずつlistに入った状態)
+
+N=len(lis)                             #アラインメントの配列数(Ni算出用)
+#print(N)
+
+for d in range(len(lis[0])):           #lisの[0](1)番目の範囲をdとおき(1サイト)、エントロピー算出の基準をつくる
+    #print(d)
+    for e in range(len(lis)):          #各サイトの位置を統一させ、同時に同じ場所を指定できるようにする
+        #print(d)
+        lis3 += lis[e][d]              #それらのlisのリストをlis3に加える。eはひとつのサイトでdはその中のx番目のアミノ酸        
+    g= collections.Counter(lis3)       #eの頻度を求める用でlis3のアミノ酸毎に数を数える変数g
+    
+    for e in ["G","A","V","L","I","T","S","P","N","D","Q","E","K","R","H","C","M","F","Y","W","-"]:                   
+        pi = g[e]/N                    #i番目のタイプの頻度/アライメントの配列数、e(1サイト)のアミノ酸の個数を数えたものを配列数で割る
+        if pi > 0:
+            lis4.append(float(-1*pi*math.log(pi,2)))        #piよりシャノンのエントロピーの計算、-1*pi*log2(pi)を求めlis4に加えた
+    print(sum(lis4))                   
+          
+    lis3=""                            
+    lis4=[]                            #forで処理し続けてしまうので空にして終わらせる
