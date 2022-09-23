@@ -1,0 +1,23 @@
+lis=[] #空リスト
+lis2="" #空白文字
+import collections #モジュール
+
+f = open('UniProt.fasta','r')
+
+for i in f:
+    if ">" in i: #>があるとこをひとつずつ読み込む
+        lis.append(lis2) #lis2(空白)をからのリスト(lis)に入れる
+        lis2="" #その後lis2を空にする
+    else:
+        s=i.replace("\n","") #配列のほうに改行モジを消す処理
+        lis2=lis2+s #それをlis2に入れていく この操作を繰り返すと最初に空のlis2をlisに入れるとこからはじまり、最後のが読み込まれない
+
+lis.append(lis2) #最後のをlisに入れる
+del lis[0] #最初の空白を消す
+
+for p in lis:
+    c=collections.Counter(p)
+    print(str(len(p))+":"+str(c)) #:に合わせるためにstrを使う
+
+
+f.close()
