@@ -1,0 +1,21 @@
+id=[]
+seq=[]
+seq2=[]
+f=open('UniProt.fasta','r')
+for x in f:
+    if ">" in x:
+        d=(x.split("|")[1])
+        id.append(d)
+        seq.append(seq2)
+        seq2=""
+    else:
+        i=x.replace('\n','')
+        seq2=seq2+i
+
+seq.append(seq2)
+del seq[0]
+        
+dic=dict(zip(id,seq))
+
+print(dic)
+f.close()
