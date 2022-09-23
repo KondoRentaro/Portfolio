@@ -1,0 +1,13 @@
+lis=[] #空のリスと作る                                                                                                                                            
+lis2="" #空白文字を入れる                                                                                                                                      
+f=open("UniProt.fasta","r")
+for i in f:
+    if '>' in i:
+        lis.append(lis2) #リスとに格納                                                                                                                                  
+        lis2=""  #初期化                                                                                                                                                
+    else:
+        s=i.replace("\n","") #sの改行消す                                                                                                                     
+        lis2=lis2+s #lis2とsを連結                                                                                                                              
+lis.append(lis2) #初期化したlis2をlisに格納                                                                                                                     
+del lis[0] #lisの最初の空白消す                                                                                                                                 
+print(lis)
