@@ -1,0 +1,57 @@
+# シャノンのエントロピーを求める
+
+import collections
+import math
+import time
+
+s_time = time.time()
+
+
+sequence = ""
+sequences = list()
+sites = ""
+shannon_entropy = list()
+
+# IDごとに配列を取り出した。それぞれの配列のアミノ酸もリストにして要素として取り出せるようにした。
+with open("rhodopsins_multi","r") as f: 
+    for line in f:
+        if ">" in line:
+            if sequence == "":
+                continue
+            sequences.append(list(sequence))
+            sequence = ""
+            
+        else:
+            sequence += line.replace("\n","")
+sequences.append(list(sequence)) # 最後の配列をsequencesに加える。最後は>がないから最後の配列をsequencesに加えられないから
+
+# アライメント中の配列の数
+m = len(sequences)
+
+
+#すべてのサイトのエントロピーを算出するためにforで回す
+for p in range(len(sequences[0])):      #ここまで同じ
+    # サイトnのアミノ酸を取り出し、変数 sitesに加えた
+    for i in range(len(sequences)): 
+
+        sites += sequences[i][p]
+        #print(sites)
+    
+
+    # sitesのアミノ酸をアミノ酸ごとに数えた
+    Number_of_aa = collections.Counter(sites)
+
+    # アミノ酸ごとにpi*log2(pi)を求め、リストshannon_entropyに加えた。log2(0)は出来ないのでpi = 0のときは、0を加えた
+    for i in ["G","A","V","L","I","T","S","P","N","D","Q","E","K","R","H","C","M","F","Y","W","-"]:    
+        pi = Number_of_aa[i]/m
+        if pi > 0:
+            shannon_entropy.append(float(pi*math.log(pi,2)))
+        #elif pi == 0:
+            #shannon_entropy.append(float(0))
+
+    # shannon_entropyのすべての要素の和をマイナス倍して表示
+    print(-sum(shannon_entropy))
+
+    
+    sites = ""
+    shannon_entropy = list()
