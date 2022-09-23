@@ -1,0 +1,6 @@
+f=open("UniProt.fasta","r")
+for i in f:
+    if ">" in i:
+        d=(i.split("|")[1]) #区切り文字を分割(|を消して全部","で区切る)
+        print(d)
+f.close()
