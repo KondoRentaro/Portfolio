@@ -18,5 +18,6 @@
         <p><?php echo $error ?></p>
       </div>
     </form>
+
   </body>
 </html>

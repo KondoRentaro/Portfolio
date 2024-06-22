@@ -5,9 +5,8 @@
     <title>コメント投稿 | Special Blog</title>
     <link rel="stylesheet" href="blog.css">
   </head>
-
   <body>
-    <form method="post" action="comment.php">
+    <form method="post" action="">
       <div class="post">
         <h2>コメント投稿</h2>
         <p>お名前</p>
